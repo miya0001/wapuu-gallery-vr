@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<title>Web VR boilerplate</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<style>
+body {
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  color: #fff;
+  margin: 0px;
+  padding: 0;
+  overflow: hidden;
+}
+</style>
+</head>
+
+<body>
+
+</body>
+
+<script src="lib/threejs/build/three.js"></script>
+<script src="lib/threejs/examples/js/controls/VRControls.js"></script>
+<script src="lib/threejs/examples/js/effects/VREffect.js"></script>
+<script src="lib/webvr-polyfill/build/webvr-polyfill.js"></script>
+<script src="build/webvr-manager.js"></script>
+
+
+<script>
+
+WebVRConfig = {};
+
+function animate( timestamp, cube ) {
+    degree = degree + 1;
+    var radian = degree * Math.PI / 180;
+    var positionY = Math.sin( radian ) * 0.05;
+    cube.position.y = positionY;
+    renderer.render( scene,camera );
+    controls.update();
+    manager.render( scene, camera, timestamp );
+    requestAnimationFrame( function(){
+        animate( timestamp, cube );
+    } );
+}
+
+function add_cosmos( scene ) {
+    var pgeometry = new THREE.Geometry();
+    for ( var n = 0; n < 5000; n++ ) {
+        var vertex = new THREE.Vector3();
+        vertex.x = ( Math.random() - 0.5 ) * 1600;
+        vertex.y = ( Math.random() - 0.5 ) * 1600;
+        vertex.z = ( Math.random() - 0.5 ) * 1600;
+        pgeometry.vertices.push( vertex );
+    }
+    var pmaterial = new THREE.PointsMaterial( {
+        size: 1,
+        color: 0xFFFFE0,
+        blending: THREE.AdditiveBlending,
+        transparent: true,
+        fog: true
+    } );
+    var particles = new THREE.Points( pgeometry, pmaterial );
+    particles.fog = new THREE.FogExp2( 0xffffff, 1 );
+    scene.add( particles );
+}
+
+var degree = 0;
+
+var renderer = new THREE.WebGLRenderer( { antialias: true } );
+renderer.setPixelRatio( window.devicePixelRatio );
+
+document.body.appendChild( renderer.domElement );
+
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 10000 );
+var controls = new THREE.VRControls( camera );
+var effect = new THREE.VREffect( renderer );
+effect.setSize( window.innerWidth, window.innerHeight );
+var manager = new WebVRManager( renderer, effect, { hideButton: false } );
+
+add_cosmos( scene );
+
+var wapuus = [
+    { img: 'wapuus/original-wapuu.png', x: 0, y: 0, z: -1 },
+];
+
+for ( var i = 0; i < wapuus.length; i++ ) {
+    var material = new THREE.MeshBasicMaterial( {
+      map:THREE.ImageUtils.loadTexture( wapuus[i]['img'], {}, function() {
+          renderer.render(scene, camera);
+      } )
+    } );
+    var geometry = new THREE.PlaneGeometry( 0.2, 0.2 );
+    var cube = new THREE.Mesh( geometry, material );
+
+    cube.position.x = wapuus[i]['x'];
+    cube.position.y = wapuus[i]['y'];
+    cube.position.z = wapuus[i]['z'];
+
+    scene.add( cube );
+    animate( null, cube );
+}
+
+function onKey(event) {
+    if (event.keyCode == 90) { // z
+        controls.resetSensor();
+    }
+}
+
+window.addEventListener('keydown', onKey, true);
+
+</script>
+
+</html>
