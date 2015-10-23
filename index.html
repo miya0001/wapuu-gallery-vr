@@ -19,6 +19,15 @@ body {
   overflow: hidden;
 }
 </style>
+<script type="text/javascript">
+var wapuus = [
+    "original-wapuu.png",
+    "wck-wapuu.png",
+    "wct2012.png",
+    "wct2013.png",
+    "wctokyo_wapuu.png",
+];
+</script>
 </head>
 
 <body>
@@ -36,16 +45,20 @@ body {
 
 WebVRConfig = {};
 
-function animate( timestamp, cube ) {
-    degree = degree + 1;
+function getRandom( min, max ) {
+  return Math.random() * ( max - min ) + min;
+}
+
+function animate( timestamp, cube, y ) {
+    degree = degree + 0.1;
     var radian = degree * Math.PI / 180;
-    var positionY = Math.sin( radian ) * 0.05;
+    var positionY = y + Math.sin( radian ) * 0.02;
     cube.position.y = positionY;
     renderer.render( scene,camera );
     controls.update();
     manager.render( scene, camera, timestamp );
     requestAnimationFrame( function(){
-        animate( timestamp, cube );
+        animate( timestamp, cube, y );
     } );
 }
 
@@ -86,25 +99,32 @@ var manager = new WebVRManager( renderer, effect, { hideButton: false } );
 
 add_cosmos( scene );
 
-var wapuus = [
-    { img: 'wapuus/original-wapuu.png', x: 0, y: 0, z: -1 },
-];
-
 for ( var i = 0; i < wapuus.length; i++ ) {
     var material = new THREE.MeshBasicMaterial( {
-      map:THREE.ImageUtils.loadTexture( wapuus[i]['img'], {}, function() {
+      map:THREE.ImageUtils.loadTexture( 'wapuus/' + wapuus[i], {}, function() {
           renderer.render(scene, camera);
       } )
     } );
     var geometry = new THREE.PlaneGeometry( 0.2, 0.2 );
     var cube = new THREE.Mesh( geometry, material );
 
-    cube.position.x = wapuus[i]['x'];
-    cube.position.y = wapuus[i]['y'];
-    cube.position.z = wapuus[i]['z'];
+    var x, y, z;
+    if ( 0 == i ) {
+        x = 0;
+        y = 0;
+        z = -0.5;
+    } else {
+        x = 1 - getRandom( 0, 20 ) / 10;
+        y = 1 - getRandom( 0, 20 ) / 10;
+        z = 0 - getRandom( 5, 20 ) / 10;
+    }
+
+    cube.position.x = x;
+    cube.position.y = y;
+    cube.position.z = z;
 
     scene.add( cube );
-    animate( null, cube );
+    animate( null, cube, y );
 }
 
 function onKey(event) {
