@@ -22,6 +22,37 @@ body {
 <script type="text/javascript">
 var wapuus = [
     "original-wapuu.png",
+    "WapuuPepa.png",
+    "WapuuPepe.png",
+    "basile-wapuu.png",
+    "canvas-wapuu.png",
+    "cheesesteak-wapuu.png",
+    "dokuganryu-wapuu.png",
+    "fes-wapuu.png",
+    "kani-wapuu.png",
+    "krimpet-wapuu.png",
+    "maikochan-and-wapuu.png",
+    "manchester-wapuu.png",
+    "matsuri-wapuu.png",
+    "mineiro-wapuu.png",
+    "onsen-wapuu.png",
+    "original-wapuu.png",
+    "pretzel-wapuu.png",
+    "rocky-wapuu.png",
+    "scott-wapuu.png",
+    "shachihoko-wapuu.png",
+    "shikasenbei-wapuu.png",
+    "sydney-wapuu.png",
+    "takoyaki-wapuu.png",
+    "tampa-gasparilla-wapuu.png",
+    "tonkotsu-wapuu.png",
+    "wapuda-shingen.png",
+    "wapuu-der-ber.png",
+    "wapuu-france-hd.png",
+    "wapuu-france.png",
+    "wapuujlo.png",
+    "wapuunder.png",
+    "wapuushkin-wapuu.png",
     "wck-wapuu.png",
     "wct2012.png",
     "wct2013.png",
@@ -50,15 +81,16 @@ function getRandom( min, max ) {
 }
 
 function animate( timestamp, cube, y ) {
-    degree = degree + 0.1;
-    var radian = degree * Math.PI / 180;
-    var positionY = y + Math.sin( radian ) * 0.02;
-    cube.position.y = positionY;
+    cube.position.z += 0.01;
     renderer.render( scene,camera );
     controls.update();
     manager.render( scene, camera, timestamp );
     requestAnimationFrame( function(){
-        animate( timestamp, cube, y );
+        if ( cube.position.z > 0 ) {
+            scene.remove( cube );
+        } else {
+            animate( timestamp, cube, y );
+        }
     } );
 }
 
@@ -100,31 +132,33 @@ var manager = new WebVRManager( renderer, effect, { hideButton: false } );
 add_cosmos( scene );
 
 for ( var i = 0; i < wapuus.length; i++ ) {
-    var material = new THREE.MeshBasicMaterial( {
-      map:THREE.ImageUtils.loadTexture( 'wapuus/' + wapuus[i], {}, function() {
-          renderer.render(scene, camera);
-      } )
-    } );
-    var geometry = new THREE.PlaneGeometry( 0.2, 0.2 );
-    var cube = new THREE.Mesh( geometry, material );
+    setTimeout( function( i ) {
+        var material = new THREE.MeshBasicMaterial( {
+          map:THREE.ImageUtils.loadTexture( 'wapuus/' + wapuus[i], {}, function() {
+              renderer.render(scene, camera);
+          } )
+        } );
+        var geometry = new THREE.PlaneGeometry( 0.2, 0.2 );
+        var cube = new THREE.Mesh( geometry, material );
 
-    var x, y, z;
-    if ( 0 == i ) {
-        x = 0;
-        y = 0;
-        z = -0.5;
-    } else {
-        x = 1 - getRandom( 0, 20 ) / 10;
-        y = 1 - getRandom( 0, 20 ) / 10;
-        z = 0 - getRandom( 5, 20 ) / 10;
-    }
+        var x, y, z;
+        if ( 0 == i ) {
+            x = 0;
+            y = 0;
+            z = -2;
+        } else {
+            x = 1 - getRandom( 0, 20 ) / 10;
+            y = 1 - getRandom( 0, 20 ) / 10;
+            z = -2;
+        }
 
-    cube.position.x = x;
-    cube.position.y = y;
-    cube.position.z = z;
+        cube.position.x = x;
+        cube.position.y = y;
+        cube.position.z = z;
 
-    scene.add( cube );
-    animate( null, cube, y );
+        scene.add( cube );
+        animate( null, cube, y );
+    }, i * 2000, i );
 }
 
 function onKey(event) {
