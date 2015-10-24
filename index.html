@@ -76,8 +76,8 @@ function getRandom( min, max ) {
   return Math.random() * ( max - min ) + min;
 }
 
-function animate( timestamp, cube, y ) {
-    cube.position.z += 0.05;
+function animate( timestamp, cube, y, speed ) {
+    cube.position.z += speed;
     renderer.render( scene, camera );
     controls.update();
     manager.render( scene, camera, timestamp );
@@ -86,7 +86,7 @@ function animate( timestamp, cube, y ) {
             scene.remove( cube );
             delete cube;
         } else {
-            animate( timestamp, cube, y );
+            animate( timestamp, cube, y, speed );
         }
     } );
 }
@@ -152,18 +152,27 @@ function run( e ){
                     renderer.render(scene, camera);
                 } )
             } );
-            var geometry = new THREE.PlaneGeometry( 0.2, 0.2 );
+
+            var size;
+            if ( 0 == index ) {
+                size = 5;
+            } else {
+                size = getRandom( 1, 5 ) / 10;
+            }
+            var geometry = new THREE.PlaneGeometry( size, size );
             var cube = new THREE.Mesh( geometry, material );
 
-            var x, y, z;
+            var x, y, z, speed;
             if ( 0 == index ) {
                 x = 0;
                 y = 0;
                 z = -10;
+                speed = 0.1;
             } else {
                 x = getRandom( 0, 10 ) / 10 - 0.5;
                 y = getRandom( 0, 10 ) / 10 - 0.5;
                 z = -10;
+                speed = getRandom( 3, 9 ) / 100;
             }
 
             cube.position.x = x;
@@ -171,7 +180,7 @@ function run( e ){
             cube.position.z = z;
 
             scene.add( cube );
-            animate( null, cube, y );
+            animate( null, cube, y, speed );
             delete( cube );
 
             if ( ( index + 1 ) == wapuus.length ) {
@@ -189,7 +198,6 @@ renderer.setPixelRatio( window.devicePixelRatio );
 document.body.appendChild( renderer.domElement );
 
 var scene, camera, controls, effect, manager, logo;
-
 init();
 
 </script>
