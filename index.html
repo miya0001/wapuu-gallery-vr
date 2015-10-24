@@ -139,11 +139,11 @@ function add_logo( scene ) {
             renderer.render(scene, camera);
         } )
     } );
-    var geometry = new THREE.PlaneGeometry( 1, 1 );
+    var geometry = new THREE.PlaneGeometry( 5, 5 );
     logo = new THREE.Mesh( geometry, material );
     logo.position.x = 0;
     logo.position.y = 0;
-    logo.position.z = -1;
+    logo.position.z = -10;
     scene.add( logo );
 }
 
