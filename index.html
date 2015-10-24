@@ -4,7 +4,7 @@
 <head>
 <title>Wapuu Gallery VR</title>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="initial-scale=1.0">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -71,10 +71,22 @@ WebVRConfig = {};
 <script src="lib/webvr-polyfill/build/webvr-polyfill.js"></script>
 <script src="build/webvr-manager.js"></script>
 
-
 <script>
 function getRandom( min, max ) {
   return Math.random() * ( max - min ) + min;
+}
+
+function shuffle( array ) {
+  var n = array.length, t, i;
+
+  while (n) {
+    i = Math.floor(Math.random() * n--);
+    t = array[n];
+    array[n] = array[i];
+    array[i] = t;
+  }
+
+  return array;
 }
 
 function animate( timestamp, cube, y, speed ) {
@@ -83,9 +95,12 @@ function animate( timestamp, cube, y, speed ) {
     controls.update();
     manager.render( scene, camera, timestamp );
     requestAnimationFrame( function(){
-        if ( cube.position.z > 0 ) {
+        if ( cube.position.z > -1 && cube.position.z <= 0.5 ) {
+            animate( timestamp, cube, y, 0.005 );
+        } else if ( cube.position.z > 0.5 && cube.position.z <= 10 ) {
+            animate( timestamp, cube, y, 0.25 );
+        } else if ( cube.position.z > 10 ) {
             scene.remove( cube );
-            delete cube;
         } else {
             animate( timestamp, cube, y, speed );
         }
@@ -94,15 +109,15 @@ function animate( timestamp, cube, y, speed ) {
 
 function add_cosmos( scene ) {
     var pgeometry = new THREE.Geometry();
-    for ( var n = 0; n < 500; n++ ) {
+    for ( var n = 0; n < 1000; n++ ) {
         var vertex = new THREE.Vector3();
-        vertex.x = ( Math.random() - 0.5 ) * 100;
-        vertex.y = ( Math.random() - 0.5 ) * 100;
-        vertex.z = ( Math.random() - 0.5 ) * 100;
+        vertex.x = ( Math.random() - 0.5 ) * 10;
+        vertex.y = ( Math.random() - 0.5 ) * 10;
+        vertex.z = ( Math.random() - 0.5 ) * 10;
         pgeometry.vertices.push( vertex );
     }
     var pmaterial = new THREE.PointsMaterial( {
-        size: 0.1,
+        size: 0.01,
         color: 0xFFFFE0,
         blending: THREE.AdditiveBlending,
         transparent: true,
@@ -113,18 +128,8 @@ function add_cosmos( scene ) {
     scene.add( particles );
 }
 
-function init() {
-    scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 10000 );
-    controls = new THREE.VRControls( camera );
-    effect = new THREE.VREffect( renderer );
-    effect.setSize( window.innerWidth, window.innerHeight );
-    manager = new WebVRManager( renderer, effect, { hideButton: false } );
-
-    add_cosmos( scene );
-
+function add_logo( scene ) {
     var material = new THREE.MeshBasicMaterial( {
-        transparency:true,
         transparent: true,
         map:THREE.ImageUtils.loadTexture( 'img/logo.png', {}, function() {
             renderer.render(scene, camera);
@@ -136,69 +141,74 @@ function init() {
     logo.position.y = 0;
     logo.position.z = -1;
     scene.add( logo );
+}
 
-    renderer.render( scene, camera );
+function init() {
+    renderer = new THREE.WebGLRenderer( { antialias: true } );
+    renderer.setPixelRatio( window.devicePixelRatio );
+
+    document.body.appendChild( renderer.domElement );
+
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 10 );
+    controls = new THREE.VRControls( camera );
+    effect = new THREE.VREffect( renderer );
+    effect.setSize( window.innerWidth, window.innerHeight );
+    manager = new WebVRManager( renderer, effect, { hideButton: false } );
+
+    add_cosmos( scene );
+    add_logo( scene );
+
+    wapuus = shuffle( wapuus );
+    wapuu_objects = [];
+    for ( var i = 0; i < wapuus.length; i++ ) {
+        var material = new THREE.MeshBasicMaterial( {
+            transparent: true,
+            map:THREE.ImageUtils.loadTexture( 'wapuus/' + wapuus[i], {}, function() {
+                renderer.render(scene, camera);
+            } )
+        } );
+        material.side = THREE.DoubleSide;
+
+        var size;
+        size = getRandom( 2, 10 ) / 10;
+        var geometry = new THREE.PlaneGeometry( size, size );
+        var wapuu = new THREE.Mesh( geometry, material );
+        wapuu_objects.push( wapuu );
+    }
+
     window.addEventListener('click', run, true);
 }
 
 function run( e ){
     scene.remove( logo );
     window.removeEventListener('click', run, true);
-    for ( var i = 0; i < wapuus.length; i++ ) {
+    for ( var i = 0; i < wapuu_objects.length; i++ ) {
         setTimeout( function( index ) {
-            var material = new THREE.MeshBasicMaterial( {
-                transparency:true,
-                transparent: true,
-                map:THREE.ImageUtils.loadTexture( 'wapuus/' + wapuus[index], {}, function() {
-                    renderer.render(scene, camera);
-                } )
-            } );
-
-            var size;
-            if ( 0 == index ) {
-                size = 5;
-            } else {
-                size = getRandom( 1, 5 ) / 10;
-            }
-            var geometry = new THREE.PlaneGeometry( size, size );
-            var cube = new THREE.Mesh( geometry, material );
-
             var x, y, z, speed;
-            if ( 0 == index ) {
-                x = 0;
-                y = 0;
-                z = -10;
-                speed = 0.1;
-            } else {
-                x = getRandom( 0, 10 ) / 10 - 0.5;
-                y = getRandom( 0, 10 ) / 10 - 0.5;
-                z = -10;
-                speed = getRandom( 3, 9 ) / 100;
-            }
+            x = getRandom( 0, 8 ) / 10 - 0.4;
+            y = getRandom( 0, 8 ) / 10 - 0.4;
+            z = -10;
+            speed = getRandom( 10, 30 ) / 100;
 
-            cube.position.x = x;
-            cube.position.y = y;
-            cube.position.z = z;
+            wapuu_objects[index].position.x = x;
+            wapuu_objects[index].position.y = y;
+            wapuu_objects[index].position.z = z;
 
-            scene.add( cube );
-            animate( null, cube, y, speed );
-            delete( cube );
+            scene.add( wapuu_objects[index] );
+            animate( null, wapuu_objects[index], y, speed );
 
             if ( ( index + 1 ) == wapuus.length ) {
                 setTimeout( function(){
-                    init();
-                }, 5000 );
+                    add_logo( scene );
+                    window.addEventListener('click', run, true);
+                }, 10000 );
             }
-        }, i * 2000, i );
+        }, i * 5000, i );
     }
 }
 
-var renderer = new THREE.WebGLRenderer( { antialias: true } );
-renderer.setPixelRatio( window.devicePixelRatio );
-
-document.body.appendChild( renderer.domElement );
-
-var scene, camera, controls, effect, manager, logo;
+var renderer, scene, camera, controls, effect, manager, logo, wapuu_objects;
 init();
 
 </script>
