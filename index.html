@@ -4,7 +4,7 @@
 <head>
 <title>Wapuu Gallery VR</title>
 <meta charset="utf-8">
-<meta name="viewport" content="initial-scale=1.0">
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -89,22 +89,26 @@ function shuffle( array ) {
   return array;
 }
 
-function animate( timestamp, cube, y, speed ) {
+function move_wapuu( cube, y, speed ) {
     cube.position.z += speed;
-    renderer.render( scene, camera );
-    controls.update();
-    manager.render( scene, camera, timestamp );
     requestAnimationFrame( function(){
         if ( cube.position.z > -1 && cube.position.z <= 0.5 ) {
-            animate( timestamp, cube, y, 0.005 );
+            move_wapuu( cube, y, 0.005 );
         } else if ( cube.position.z > 0.5 && cube.position.z <= 10 ) {
-            animate( timestamp, cube, y, 0.25 );
+            move_wapuu( cube, y, 0.25 );
         } else if ( cube.position.z > 10 ) {
             scene.remove( cube );
         } else {
-            animate( timestamp, cube, y, speed );
+            move_wapuu( cube, y, speed );
         }
     } );
+}
+
+function animate( timestamp ) {
+    renderer.render( scene, camera );
+    controls.update();
+    manager.render( scene, camera, timestamp );
+    requestAnimationFrame( animate );
 }
 
 function add_cosmos( scene ) {
@@ -144,11 +148,6 @@ function add_logo( scene ) {
 }
 
 function init() {
-    renderer = new THREE.WebGLRenderer( { antialias: true } );
-    renderer.setPixelRatio( window.devicePixelRatio );
-
-    document.body.appendChild( renderer.domElement );
-
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 10 );
     controls = new THREE.VRControls( camera );
@@ -177,6 +176,8 @@ function init() {
         wapuu_objects.push( wapuu );
     }
 
+    animate();
+
     window.addEventListener('click', run, true);
 }
 
@@ -196,20 +197,31 @@ function run( e ){
             wapuu_objects[index].position.z = z;
 
             scene.add( wapuu_objects[index] );
-            animate( null, wapuu_objects[index], y, speed );
+            move_wapuu( wapuu_objects[index], y, speed );
 
             if ( ( index + 1 ) == wapuus.length ) {
                 setTimeout( function(){
                     add_logo( scene );
-                    window.addEventListener('click', run, true);
+                    window.addEventListener( 'click', run, true );
                 }, 10000 );
             }
         }, i * 5000, i );
     }
 }
 
+renderer = new THREE.WebGLRenderer( { antialias: true } );
+renderer.setPixelRatio( window.devicePixelRatio );
+
+document.body.appendChild( renderer.domElement );
+
 var renderer, scene, camera, controls, effect, manager, logo, wapuu_objects;
 init();
+
+window.addEventListener( "orientationchange", function(){
+    logo.position.x = 0;
+    logo.position.y = 0;
+    logo.position.z = -1;
+}, true );
 
 </script>
 
