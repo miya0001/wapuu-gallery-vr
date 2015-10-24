@@ -8,6 +8,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<link rel="apple-touch-icon" href="wapuus/original-wapuu.png" />
 <style>
 body
 {
@@ -129,11 +130,11 @@ function init() {
             renderer.render(scene, camera);
         } )
     } );
-    var geometry = new THREE.PlaneGeometry( 100, 100 );
+    var geometry = new THREE.PlaneGeometry( 1, 1 );
     logo = new THREE.Mesh( geometry, material );
     logo.position.x = 0;
     logo.position.y = 0;
-    logo.position.z = -100;
+    logo.position.z = -1;
     scene.add( logo );
 
     renderer.render( scene, camera );
