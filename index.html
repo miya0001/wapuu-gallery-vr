@@ -89,17 +89,17 @@ function shuffle( array ) {
   return array;
 }
 
-function move_wapuu( cube, y, speed ) {
+function move_wapuu( cube, speed ) {
     cube.position.z += speed;
     requestAnimationFrame( function(){
         if ( cube.position.z > -1 && cube.position.z <= 0.5 ) {
-            move_wapuu( cube, y, 0.005 );
+            move_wapuu( cube, 0.005 );
         } else if ( cube.position.z > 0.5 && cube.position.z <= 10 ) {
-            move_wapuu( cube, y, 0.25 );
+            move_wapuu( cube, 0.25 );
         } else if ( cube.position.z > 10 ) {
             scene.remove( cube );
         } else {
-            move_wapuu( cube, y, speed );
+            move_wapuu( cube, speed );
         }
     } );
 }
@@ -113,7 +113,7 @@ function animate( timestamp ) {
 
 function add_cosmos( scene ) {
     var pgeometry = new THREE.Geometry();
-    for ( var n = 0; n < 1000; n++ ) {
+    for ( var n = 0; n < 10000; n++ ) {
         var vertex = new THREE.Vector3();
         vertex.x = ( Math.random() - 0.5 ) * 10;
         vertex.y = ( Math.random() - 0.5 ) * 10;
@@ -139,7 +139,7 @@ function add_logo( scene ) {
             renderer.render(scene, camera);
         } )
     } );
-    var geometry = new THREE.PlaneGeometry( 5, 5 );
+    var geometry = new THREE.PlaneGeometry( 8, 8 );
     logo = new THREE.Mesh( geometry, material );
     logo.position.x = 0;
     logo.position.y = 0;
@@ -149,7 +149,7 @@ function add_logo( scene ) {
 
 function init() {
     scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 10 );
+    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 11 );
     controls = new THREE.VRControls( camera );
     effect = new THREE.VREffect( renderer );
     effect.setSize( window.innerWidth, window.innerHeight );
@@ -173,6 +173,16 @@ function init() {
         size = getRandom( 2, 6 ) / 10;
         var geometry = new THREE.PlaneGeometry( size, size );
         var wapuu = new THREE.Mesh( geometry, material );
+
+        var x, y, z;
+        x = getRandom( 0, 12 ) / 10 - 0.6;
+        y = getRandom( 0, 12 ) / 10 - 0.6;
+        z = -11;
+
+        wapuu.position.x = x;
+        wapuu.position.y = y;
+        wapuu.position.z = z;
+
         wapuu_objects.push( wapuu );
     }
 
@@ -186,18 +196,9 @@ function run( e ){
     window.removeEventListener('click', run, true);
     for ( var i = 0; i < wapuu_objects.length; i++ ) {
         setTimeout( function( index ) {
-            var x, y, z, speed;
-            x = getRandom( 0, 12 ) / 10 - 0.6;
-            y = getRandom( 0, 12 ) / 10 - 0.6;
-            z = -10;
-            speed = getRandom( 10, 50 ) / 100;
-
-            wapuu_objects[index].position.x = x;
-            wapuu_objects[index].position.y = y;
-            wapuu_objects[index].position.z = z;
-
             scene.add( wapuu_objects[index] );
-            move_wapuu( wapuu_objects[index], y, speed );
+            var speed = getRandom( 10, 50 ) / 100;
+            move_wapuu( wapuu_objects[index], speed );
 
             if ( ( index + 1 ) == wapuus.length ) {
                 setTimeout( function(){
