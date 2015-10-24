@@ -4,7 +4,7 @@
 <head>
 <title>Wapuu Gallery VR</title>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -95,7 +95,7 @@ function animate( timestamp, cube, y ) {
 
 function add_cosmos( scene ) {
     var pgeometry = new THREE.Geometry();
-    for ( var n = 0; n < 10000; n++ ) {
+    for ( var n = 0; n < 500; n++ ) {
         var vertex = new THREE.Vector3();
         vertex.x = ( Math.random() - 0.5 ) * 100;
         vertex.y = ( Math.random() - 0.5 ) * 100;
