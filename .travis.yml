@@ -1,4 +1,18 @@
-script: bash ./bin/deploy.sh
+language: node_js
+script:
+    - rm -rf .git || exit 0;
+    - npm install -g gulp
+    - npm install -g bower
+    - npm install
+    - bower install
+    - gulp
+    - git init
+    - git config user.name "Travis CI"
+    - git config user.email "miya+github.com@wpist.me"
+    - git add .
+    - git commit -m "Deploy to GitHub Pages"
+    - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:gh-pages > /dev/null 2>&1
+
 env:
   global:
   - GH_REF: github.com/miya0001/wapuu-gallery-vr.git
