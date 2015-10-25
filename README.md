@@ -1,5 +1,7 @@
 # Wapuu Gallery VR
 
+[![Build Status](https://travis-ci.org/miya0001/wapuu-gallery-vr.svg)](https://travis-ci.org/miya0001/wapuu-gallery-vr)
+
 A THREE.js-based Wapuu Gallery that works well in Google Cardboard.
 
 https://miya0001.github.io/wapuu-gallery-vr/
