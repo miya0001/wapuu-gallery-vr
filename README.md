@@ -14,7 +14,7 @@ https://miya0001.github.io/wapuu-gallery-vr/
 $ git clone git@github.com:miya0001/wapuu-gallery-vr.git
 $ cd wapuu-gallery-vr
 $ npm install
-$ bower
+$ bower install
 $ gulp
 ```
 
