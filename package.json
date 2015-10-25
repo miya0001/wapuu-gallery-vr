@@ -18,6 +18,9 @@
   "homepage": "https://github.com/miya0001/wapuu-gallery-vr#readme",
   "devDependencies": {
     "gulp": "^3.9.0",
+    "gulp-filenames-to-json": "^0.1.2",
+    "gulp-replace": "^0.5.4",
+    "imagemin-pngquant": "^4.2.0",
     "wapuu": "git+https://github.com/jawordpressorg/wapuu.git#gh-pages"
   }
 }
