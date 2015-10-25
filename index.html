@@ -128,7 +128,7 @@ function init() {
     for ( var i = 0; i < wapuus.length; i++ ) {
         var material = new THREE.MeshBasicMaterial( {
             transparent: true,
-            map:THREE.ImageUtils.loadTexture( 'wapuus/' + wapuus[i], {}, function() {
+            map:THREE.ImageUtils.loadTexture( wapuus[i], {}, function() {
                 renderer.render(scene, camera);
             } )
         } );

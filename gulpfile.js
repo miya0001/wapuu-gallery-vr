@@ -20,7 +20,7 @@ gulp.task( 'create_json', ['get_wapuus'], function () {
             'wapuus/*.png'
         ] )
         .pipe( filenamesToJson( { fileName: 'wapuu.json' } ) )
-        .pipe( replace( /^/, 'var wapuu = ' ) )
+        .pipe( replace( /^/, 'var wapuus = ' ) )
         .pipe( replace( /$/, ';' ) )
         .pipe( gulp.dest( '.' ) );
 });
