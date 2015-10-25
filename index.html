@@ -169,42 +169,37 @@ function init() {
         } );
         material.side = THREE.DoubleSide;
 
-        var size;
-        size = getRandom( 2, 6 ) / 10;
-        var geometry = new THREE.PlaneGeometry( size, size );
+        var geometry = new THREE.PlaneGeometry( 1, 1 );
         var wapuu = new THREE.Mesh( geometry, material );
-
-        var x, y, z;
-        x = getRandom( 0, 12 ) / 10 - 0.6;
-        y = getRandom( 0, 12 ) / 10 - 0.6;
-        z = -11;
-
-        wapuu.position.x = x;
-        wapuu.position.y = y;
-        wapuu.position.z = z;
 
         wapuu_objects.push( wapuu );
     }
 
     animate();
 
-    window.addEventListener('click', run, true);
+    setTimeout( run, 3000 );
 }
 
 function run( e ){
     scene.remove( logo );
-    window.removeEventListener('click', run, true);
     for ( var i = 0; i < wapuu_objects.length; i++ ) {
         setTimeout( function( index ) {
             scene.add( wapuu_objects[index] );
+
+            var scale = getRandom( 1, 5 ) / 10;
+            wapuu_objects[index].scale.x = scale;
+            wapuu_objects[index].scale.y = scale;
+
+            wapuu_objects[index].position.x = getRandom( 0, 12 ) / 10 - 0.6;
+            wapuu_objects[index].position.y = getRandom( 0, 12 ) / 10 - 0.6;
+            wapuu_objects[index].position.z = -11;
             var speed = getRandom( 10, 50 ) / 100;
+
             move_wapuu( wapuu_objects[index], speed );
 
-            if ( ( index + 1 ) == wapuus.length ) {
-                setTimeout( function(){
-                    add_logo( scene );
-                    window.addEventListener( 'click', run, true );
-                }, 10000 );
+            if ( ( index + 1 ) == wapuu_objects.length ) {
+                add_logo( scene );
+                setTimeout( run, 10000 );
             }
         }, i * 2000, i );
     }
@@ -217,12 +212,6 @@ document.body.appendChild( renderer.domElement );
 
 var renderer, scene, camera, controls, effect, manager, logo, wapuu_objects;
 init();
-
-window.addEventListener( "orientationchange", function(){
-    logo.position.x = 0;
-    logo.position.y = 0;
-    logo.position.z = -1;
-}, true );
 
 </script>
 

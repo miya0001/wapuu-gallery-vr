@@ -1,0 +1,23 @@
+{
+  "name": "wapuu-gallery-vr",
+  "version": "1.0.0",
+  "description": "A THREE.js-based Wapuu Gallery that works well in Google Cardboard.",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miya0001/wapuu-gallery-vr.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/miya0001/wapuu-gallery-vr/issues"
+  },
+  "homepage": "https://github.com/miya0001/wapuu-gallery-vr#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "wapuu": "git+https://github.com/jawordpressorg/wapuu.git#gh-pages"
+  }
+}
