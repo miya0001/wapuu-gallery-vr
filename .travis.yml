@@ -1,6 +1,7 @@
 language: node_js
 script:
-    - rm -rf .git || exit 0;
+    - rm -rf .git;
+    - rm -rf .gitignore;
     - npm install -g gulp
     - npm install -g bower
     - npm install
