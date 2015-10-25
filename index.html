@@ -56,17 +56,26 @@ function shuffle( array ) {
 
 function move_wapuu( cube, speed ) {
     cube.position.z += speed;
-    requestAnimationFrame( function(){
-        if ( cube.position.z > -1 && cube.position.z <= 0.5 ) {
-            move_wapuu( cube, 0.005 );
-        } else if ( cube.position.z > 0.5 && cube.position.z <= 10 ) {
-            move_wapuu( cube, 0.25 );
-        } else if ( cube.position.z > 10 ) {
-            scene.remove( cube );
-        } else {
-            move_wapuu( cube, speed );
-        }
-    } );
+    if ( cube.parent ) {
+        requestAnimationFrame( function(){
+            if ( cube.position.z > -1 && cube.position.z <= 0.5 ) {
+                move_wapuu( cube, 0.005 );
+            } else if ( cube.position.z > 0.5 && cube.position.z <= 10 ) {
+                move_wapuu( cube, 0.25 );
+            } else if ( cube.position.z > 10 ) {
+                scene.remove( cube );
+            } else {
+                move_wapuu( cube, speed );
+            }
+        } );
+    }
+}
+
+function rotate( timestamp ) {
+    logo.rotation.y += 0.05;
+    if ( logo.parent ) {
+        requestAnimationFrame( rotate );
+    }
 }
 
 function animate( timestamp ) {
@@ -98,18 +107,20 @@ function add_cosmos( scene ) {
 }
 
 function add_logo( scene ) {
-    var material = new THREE.MeshBasicMaterial( {
-        transparent: true,
-        map:THREE.ImageUtils.loadTexture( 'img/logo.png', {}, function() {
-            renderer.render(scene, camera);
-        } )
-    } );
-    var geometry = new THREE.PlaneGeometry( 8, 8 );
+    var texloader = new THREE.TextureLoader();
+    var tex = texloader.load( 'wapuus/original-wapuu.png' );
+    var material = new THREE.MeshBasicMaterial( { map: tex } );
+    material.transparent = true;
+    material.side = THREE.DoubleSide;
+
+    var geometry = new THREE.PlaneGeometry( 2, 2 );
     logo = new THREE.Mesh( geometry, material );
     logo.position.x = 0;
     logo.position.y = 0;
     logo.position.z = -10;
     scene.add( logo );
+
+    rotate();
 }
 
 function init() {
@@ -126,12 +137,10 @@ function init() {
     wapuus = shuffle( wapuus );
     wapuu_objects = [];
     for ( var i = 0; i < wapuus.length; i++ ) {
-        var material = new THREE.MeshBasicMaterial( {
-            transparent: true,
-            map:THREE.ImageUtils.loadTexture( wapuus[i], {}, function() {
-                renderer.render(scene, camera);
-            } )
-        } );
+        var texloader = new THREE.TextureLoader();
+        var tex = texloader.load( wapuus[i] );
+        var material = new THREE.MeshBasicMaterial( { map: tex } );
+        material.transparent = true;
         material.side = THREE.DoubleSide;
 
         var geometry = new THREE.PlaneGeometry( 1, 1 );
@@ -142,7 +151,7 @@ function init() {
 
     animate();
 
-    setTimeout( run, 3000 );
+    setTimeout( run, 10000 );
 }
 
 function run( e ){
