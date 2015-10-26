@@ -1,4 +1,9 @@
 language: node_js
+
+branches:
+  only:
+    - master
+
 script:
     - rm -rf .git
     - rm -r .gitignore
