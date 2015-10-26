@@ -9,6 +9,11 @@ http://spacewapuu.com/
 ![](https://miya0001.github.io/wapuu-gallery-vr/img/screenshot-01.png)
 ![](https://miya0001.github.io/wapuu-gallery-vr/img/screenshot-02.png)
 
+## How to add Wapuu
+
+1. Please send pull-request to [Wapuu archive](https://github.com/jawordpressorg/wapuu) project.
+1. Then, write an [issue](https://github.com/miya0001/wapuu-gallery-vr/issues).
+
 ## How to build
 
 ```
