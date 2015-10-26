@@ -2,13 +2,20 @@
 
 <html lang="en">
 <head>
-<title>Wapuu Gallery VR</title>
+<title>Space Wapuu VR</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <link rel="apple-touch-icon" href="wapuus/original-wapuu.png" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="product" />
+<meta property="og:title" content="Space Wapuu VR" />
+<meta property="og:description" content="A THREE.js-based Wapuu Gallery that works well in Google Cardboard." />
+<meta property="og:url" content="http://spacewapuu.com/" />
+<meta property="og:site_name" content="Space Wapuu VR" />
+<meta property="og:image" content="http://spacewapuu.com/img/ogp.png" />
 <style>
 body
 {
@@ -20,6 +27,16 @@ body
     padding: 0;
     overflow: hidden;
 }
+#about
+{
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+#about a
+{
+    color: #ffffff;
+}
 </style>
 <script type="text/javascript" src="wapuu.json"></script>
 <script type="text/javascript">
@@ -27,7 +44,7 @@ body
 </script>
 </head>
 
-<body></body>
+<body><div id="about"><a href="https://github.com/miya0001/wapuu-gallery-vr">About</a></div></body>
 
 <script src="lib/threejs/build/three.min.js"></script>
 <script src="lib/threejs/examples/js/controls/VRControls.js"></script>
@@ -179,12 +196,12 @@ function run( e ){
     }
 }
 
-renderer = new THREE.WebGLRenderer( { antialias: true } );
+var renderer = new THREE.WebGLRenderer( { antialias: true } );
 renderer.setPixelRatio( window.devicePixelRatio );
 
 document.body.appendChild( renderer.domElement );
 
-var renderer, scene, camera, controls, effect, manager, logo, wapuu_objects;
+var scene, camera, controls, effect, manager, logo, wapuu_objects;
 init();
 
 </script>

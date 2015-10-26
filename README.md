@@ -1,4 +1,4 @@
-# Wapuu Gallery VR
+# Space Wapuu VR
 
 [![Build Status](https://travis-ci.org/miya0001/wapuu-gallery-vr.svg)](https://travis-ci.org/miya0001/wapuu-gallery-vr)
 
@@ -23,3 +23,7 @@ $ npm start
 
 * https://github.com/jawordpressorg/wapuu
 * https://github.com/borismus/webvr-boilerplate
+
+## License
+
+GPLv2
