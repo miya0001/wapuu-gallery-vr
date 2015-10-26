@@ -3,11 +3,8 @@ script:
     - rm -rf .git
     - rm -r .gitignore
     - rm -f .travis.yml
-    - npm install -g gulp
-    - npm install -g bower
     - npm install
-    - bower install
-    - gulp
+    - npm run build
     - git init
     - git config user.name "Travis CI"
     - git config user.email "miya+github.com@wpist.me"
