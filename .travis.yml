@@ -4,12 +4,12 @@ branches:
   only:
     - master
 
-before_script: ./bin/prepare.sh
+before_script: bash ./bin/prepare.sh
 
 script:
     - ls -al wapuu.json
 
-after_success: ./bin/deploy.sh
+after_success: bash ./bin/deploy.sh
 
 env:
   global:
