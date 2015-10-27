@@ -12,15 +12,18 @@ if [[ "master" != "$TRAVIS_BRANCH" ]]; then
 	exit
 fi
 
+
+# commit to gh-pages
 rm -rf .git
 rm -r .gitignore
-rm -f .travis.yml
-rm -rf node_modules
-rm -rf bin
+
+echo ".travis.yml
+node_modules
+bin" > .gitignore
 
 git init
 git config user.name "Travis CI"
 git config user.email "miya+github.com@wpist.me"
 git add .
-git commit -q -m "Deploy to GitHub Pages"
+git commit --quiet -m "Deploy from travis"
 git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:gh-pages > /dev/null 2>&1
