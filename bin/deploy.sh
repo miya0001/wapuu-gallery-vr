@@ -19,7 +19,8 @@ rm -r .gitignore
 
 echo ".travis.yml
 node_modules
-bin" > .gitignore
+bin
+tests" > .gitignore
 
 git init
 git config user.name "Travis CI"
