@@ -17,9 +17,13 @@ fi
 rm -rf .git
 rm -r .gitignore
 
-echo ".travis.yml
-node_modules
+echo ".bowerrc
+.travis.yml
 bin
+bower.json
+gulpfile.js
+node_modules
+package.json
 tests" > .gitignore
 
 git init
