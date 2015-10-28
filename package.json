@@ -4,7 +4,7 @@
   "description": "A THREE.js-based Wapuu Gallery that works well in Google Cardboard.",
   "main": "index.html",
   "scripts": {
-    "build": "node_modules/bower/bin/bower install && node_modules/gulp/bin/gulp.js",
+    "build": "node_modules/gulp/bin/gulp.js",
     "start": "./node_modules/http-server/bin/http-server -c1 -o",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,12 +19,15 @@
   },
   "homepage": "https://github.com/miya0001/wapuu-gallery-vr#readme",
   "devDependencies": {
-    "bower": "^1.6.5",
     "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-download": "0.0.1",
     "gulp-filenames-to-json": "^0.1.2",
     "gulp-replace": "^0.5.4",
+    "gulp-uglify": "^1.4.2",
     "http-server": "^0.8.5",
     "imagemin-pngquant": "^4.2.0",
+    "three": "^0.73.0",
     "wapuu": "git+https://github.com/jawordpressorg/wapuu.git#gh-pages"
   }
 }

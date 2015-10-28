@@ -17,10 +17,8 @@ fi
 rm -rf .git
 rm -r .gitignore
 
-echo ".bowerrc
-.travis.yml
+echo ".travis.yml
 bin
-bower.json
 gulpfile.js
 node_modules
 package.json
