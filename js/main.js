@@ -112,7 +112,7 @@ function init() {
 
     animate();
 
-    setTimeout( run, 10000 );
+    setTimeout( run, 5000 );
 }
 
 function run( e ){
