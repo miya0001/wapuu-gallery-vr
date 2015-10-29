@@ -1,0 +1,23 @@
+s3_id: <%= ENV['AWS_S3_ACCESS_KEY_ID'] %>
+s3_secret: <%= ENV['AWS_S3_SECRET_ACCESS_KEY'] %>
+s3_bucket: spacewapuu.com
+cloudfront_distribution_id: E1L2EQTEF4LEMF
+s3_endpoint: ap-northeast-1
+max_age:
+    "wapuus/*": 864000
+    "index.html": 0
+exclude_from_upload:
+    - .bundle
+    - .git
+    - .gitignore
+    - .travis.yml
+    - Gemfile
+    - Gemfile.lock
+    - bin
+    - gulpfile.js
+    - node_modules
+    - package.json
+    - README.md
+    - vendor
+cloudfront_invalidate_root: true
+gzip: true
