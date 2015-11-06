@@ -12,7 +12,5 @@ if [[ "master" != "$TRAVIS_BRANCH" ]]; then
 	exit
 fi
 
-
-# commit to gh-pages
 bundle install --path vendor/bundle
-bundle exec s3_website push --site . > /dev/null 2>&1
+bundle exec s3_website push --site . 2>/dev/null
