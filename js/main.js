@@ -38,6 +38,7 @@ function move_wapuu( cube, speed ) {
 function rotate( timestamp ) {
     logo.rotation.y += 0.05;
     if ( logo.parent ) {
+        TWEEN.update();
         requestAnimationFrame( rotate );
     }
 }
@@ -86,10 +87,23 @@ function add_logo( scene ) {
     // var Material = new THREE.MeshBasicMaterial( { color: 0xcccccc } );
     // logo = new THREE.Mesh( TextGeometry, Material );
 
-    logo.position.x = 0;
-    logo.position.y = 0;
-    logo.position.z = -10;
+    // logo.position.x = 0;
+    // logo.position.y = 0;
+    // logo.position.z = -11;
     scene.add( logo );
+
+    var position = { x : 0, y: 0, z: -20 };
+    var target = { x : 0, y: 0, z: -5 };
+    var tween = new TWEEN.Tween( position ).to( target, 2000 );
+    tween.onUpdate( function(){
+        logo.position.x = position.x;
+        logo.position.y = position.y;
+        logo.position.z = position.z;
+    } );
+
+    tween.easing( TWEEN.Easing.Elastic.InOut )
+    tween.start();
+
 
     rotate();
 }

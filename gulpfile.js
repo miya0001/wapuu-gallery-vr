@@ -45,6 +45,7 @@ gulp.task( 'create_json', ['get_wapuus'], function () {
 gulp.task( 'default', [ 'download', 'get_wapuus', 'create_json' ], function () {
     return gulp.src( [
             'node_modules/three/three.min.js',
+            'node_modules/tween.js/src/Tween.js',
         ] )
         .pipe( gulp.dest( 'lib' ) );
 } );

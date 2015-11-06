@@ -28,6 +28,7 @@
     "http-server": "^0.8.5",
     "imagemin-pngquant": "^4.2.0",
     "three": "^0.73.0",
+    "tween.js": "^16.3.1",
     "wapuu": "git+https://github.com/jawordpressorg/wapuu.git#gh-pages"
   }
 }
