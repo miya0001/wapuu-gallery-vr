@@ -6,8 +6,8 @@ A THREE.js-based Wapuu Gallery that works well in Google Cardboard.
 
 http://spacewapuu.com/
 
-![](https://miya0001.github.io/wapuu-gallery-vr/img/screenshot-01.png)
-![](https://miya0001.github.io/wapuu-gallery-vr/img/screenshot-02.png)
+![](http://spacewapuu.com/img/screenshot-01.png)
+![](http://spacewapuu.com/img/screenshot-02.png
 
 ## How to add Wapuu
 
