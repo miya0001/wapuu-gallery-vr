@@ -107,17 +107,18 @@ function run( e ){
             wapuu_objects[index].scale.x = scale;
             wapuu_objects[index].scale.y = scale;
 
-            var speed = parseInt( getRandom( 2000, 6000 ) );
+            var speed = parseInt( getRandom( 2000, 10000 ) );
 
             var position = { x : parseInt( getRandom( 0, 8 ) ) - 4, y: parseInt( getRandom( 0, 8 ) ) - 4, z: -11 };
-            var target = { x : parseInt( getRandom( 0, 8 ) ) - 4, y: parseInt( getRandom( 0, 8 ) ) - 4, z: 11 };
+            var target = { x : parseInt( getRandom( 0, 8 ) ) - 4, y: parseInt( getRandom( 0, 8 ) ) - 4, z: 12 };
             var tween = new TWEEN.Tween( position ).to( target, speed );
             tween.onUpdate( function(){
                 wapuu_objects[index].position.x = position.x;
                 wapuu_objects[index].position.y = position.y;
                 wapuu_objects[index].position.z = position.z;
             } );
-            tween.onStop( function(){
+            tween.onComplete( function(){
+                console.log( 'stop' );
                 scene.remove( wapuu_objects[index] );
             } );
             tween.start();
