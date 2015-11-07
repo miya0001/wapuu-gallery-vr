@@ -16,6 +16,7 @@ function shuffle( array ) {
 }
 
 function animate( timestamp ) {
+    earth.rotation.y += Math.PI / 314;
     controls.update();
     manager.render( scene, camera, timestamp );
     TWEEN.update();
@@ -41,6 +42,19 @@ function add_cosmos( scene ) {
     var particles = new THREE.Points( pgeometry, pmaterial );
     particles.fog = new THREE.FogExp2( 0xffffff, 1 );
     scene.add( particles );
+}
+
+function add_earth( scene ) {
+    var geometry = new THREE.SphereGeometry( 0.5, 30, 30 );
+    var material = new THREE.MeshBasicMaterial( {
+        map: THREE.ImageUtils.loadTexture( 'img/earth.jpg' )
+    } );
+    earth = new THREE.Mesh( geometry, material );
+    earth.overdraw = true;
+    scene.add( earth );
+    earth.position.x = parseInt( getRandom( 0, 8 ) ) - 4;
+    earth.position.y = parseInt( getRandom( 0, 8 ) ) - 4;
+    earth.position.z = 10;
 }
 
 function add_logo( scene ) {
@@ -76,6 +90,7 @@ function add_logo( scene ) {
 function init() {
     add_cosmos( scene );
     add_logo( scene );
+    add_earth( scene );
 
     animate();
 
@@ -118,7 +133,6 @@ function run( e ){
                 wapuu_objects[index].position.z = position.z;
             } );
             tween.onComplete( function(){
-                console.log( 'stop' );
                 scene.remove( wapuu_objects[index] );
             } );
             tween.start();
@@ -136,7 +150,7 @@ renderer.setPixelRatio( window.devicePixelRatio );
 
 document.body.appendChild( renderer.domElement );
 
-var scene, camera, controls, effect, manager, logo, wapuu_objects;
+var scene, camera, controls, effect, manager, logo, wapuu_objects, earth;
 scene = new THREE.Scene();
 camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 11 );
 controls = new THREE.VRControls( camera );
