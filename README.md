@@ -11,22 +11,13 @@ http://spacewapuu.com/
 
 ## How to add Wapuu
 
-1. Please send pull-request to [Wapuu archive](https://github.com/jawordpressorg/wapuu) project.
-1. Then, write an [issue](https://github.com/miya0001/wapuu-gallery-vr/issues).
+Powered by Wapuus JSON API!
 
-## How to build
-
-```
-$ git clone git@github.com:miya0001/wapuu-gallery-vr.git
-$ cd wapuu-gallery-vr
-$ npm install
-$ npm run build
-$ npm start
-```
+1. Please send pull-request to [Wapuus JSON API](https://github.com/jawordpressorg/wapuu-api) project.
 
 ## Thanks
 
-* https://github.com/jawordpressorg/wapuu
+* https://github.com/jawordpressorg/wapuu-api
 * https://github.com/borismus/webvr-boilerplate
 
 ## License
