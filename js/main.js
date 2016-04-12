@@ -87,7 +87,7 @@ function add_logo( scene ) {
     rotate.start();
 }
 
-function init() {
+function init(wapuus) {
     add_cosmos( scene );
     add_logo( scene );
     add_earth( scene );
@@ -98,7 +98,9 @@ function init() {
     wapuu_objects = [];
     for ( var i = 0; i < wapuus.length; i++ ) {
         var texloader = new THREE.TextureLoader();
-        var tex = texloader.load( wapuus[i] );
+        THREE.TextureLoader.prototype.crossOrigin = '';
+        var tex = texloader.load( wapuus[i].wapuu.src );
+        console.log(texloader);
         var material = new THREE.MeshBasicMaterial( { map: tex } );
         material.transparent = true;
         material.side = THREE.DoubleSide;
@@ -141,21 +143,6 @@ function run( e ){
                 add_logo( scene );
                 setTimeout( run, 10000 );
             }
-        }, i * 1000, i );
+        }, i * 500, i );
     }
 }
-
-var renderer = new THREE.WebGLRenderer( { antialias: true } );
-renderer.setPixelRatio( window.devicePixelRatio );
-
-document.body.appendChild( renderer.domElement );
-
-var scene, camera, controls, effect, manager, logo, wapuu_objects, earth;
-scene = new THREE.Scene();
-camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 11 );
-controls = new THREE.VRControls( camera );
-effect = new THREE.VREffect( renderer );
-effect.setSize( window.innerWidth, window.innerHeight );
-manager = new WebVRManager( renderer, effect, { hideButton: false } );
-
-init();

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" ng-app="myapp">
 <head>
 <title>Space Wapuu VR</title>
 <meta charset="utf-8">
@@ -43,12 +43,46 @@ body
 </script>
 </head>
 
-<body><div id="about"><a href="https://github.com/miya0001/wapuu-gallery-vr">About</a></div></body>
+<body ng-controller="myCtrl"><div id="about"><a href="https://github.com/miya0001/wapuu-gallery-vr">About</a></div></body>
 
-<script type="text/javascript" src="wapuu.json?ver=VERSION"></script>
 <script type="text/javascript" src="lib/Tween.js?ver=VERSION"></script>
 <script type="text/javascript" src="lib/three.min.js?ver=VERSION"></script>
 <script type="text/javascript" src="lib/three-plugins.min.js?ver=VERSION"></script>
 <script type="text/javascript" src="js/main.js?ver=VERSION"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+<script type="text/javascript">
+var scene, camera, controls, effect, manager, logo, wapuu_objects, earth, renderer;
+
+angular.module('myapp', [])
+.service('wapuu', ['$http', function ($http) {
+    this.getdata = function (callback) {
+        $http({
+            url: 'https://jawordpressorg.github.io/wapuu-api/v1/wapuu.json',
+            method: 'GET'
+        })
+        .success(function (data, status, headers, config) {
+            callback(data);
+        })
+    };
+}])
+.controller('myCtrl', ['$scope', 'wapuu', function ($scope, wapuu) {
+    $scope.wapuus = [];
+    wapuu.getdata(function (res) {
+      renderer = new THREE.WebGLRenderer( { antialias: true } );
+      renderer.setPixelRatio( window.devicePixelRatio );
+
+      document.body.appendChild( renderer.domElement );
+
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 11 );
+      controls = new THREE.VRControls( camera );
+      effect = new THREE.VREffect( renderer );
+      effect.setSize( window.innerWidth, window.innerHeight );
+      manager = new WebVRManager( renderer, effect, { hideButton: false } );
+
+      init(res);
+    });
+}]);
+</script>
 
 </html>

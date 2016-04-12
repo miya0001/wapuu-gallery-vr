@@ -1,7 +1,4 @@
 .DS_Store
 .bundle
-lib
 npm-debug.log
 vendor
-wapuus
-wapuu.json
