@@ -59,7 +59,7 @@ function add_earth( scene ) {
 
 function add_logo( scene ) {
     var texloader = new THREE.TextureLoader();
-    var tex = texloader.load( 'wapuus/original-wapuu.png' );
+    var tex = texloader.load( 'img/wapuu-original.png' );
     var material = new THREE.MeshBasicMaterial( { map: tex } );
     material.transparent = true;
     material.side = THREE.DoubleSide;

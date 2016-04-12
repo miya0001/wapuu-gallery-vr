@@ -7,7 +7,7 @@ branches:
 before_script: bash ./bin/prepare.sh
 
 script:
-    - ls -al wapuu.json
+    - ls -al
 
 after_success: bash ./bin/deploy.sh
 
